@@ -1,0 +1,16 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100;900&display=swap");
+.img-logo{
+    width: 120px;
+    height: 72px;
+}
+.item {
+text-decoration: none;
+color: #0b9dcd;
+font-size: 15px;
+font-family: 'Montserrat', sans-serif;
+font-weight:bolder;
+padding: 5px;
+}
+.item:hover{
+color: #83cee7;
+}
