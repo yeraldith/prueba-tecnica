@@ -1,7 +1,8 @@
 import React from "react";
 import Formulario from "../components/formulario";
 
-class Information extends React.Component {
+
+class Informacion extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -10,19 +11,13 @@ class Information extends React.Component {
       secciones: [],
     };
   }
-  onChange=(e)=>{
-this.setState({
-    valor: e.target.value,
-  
-});
-  }
 
   cargar = (informacion) => {
-    const datos = informacion.data.data;
+    const datos = informacion;
     let variables = [];
     let secciones = [];
     let bandera = true;
-    for (const val1 of Object.values(datos)) {
+    for (const val1 of Object.values(datos.data.data)) {
       let keys = Object.keys(val1);
       for (let i = 0; i < keys.length; i++) {
         const element = keys[i];
@@ -61,19 +56,59 @@ this.setState({
       .then((informacion) => this.cargar(informacion));
   }
 
+  handlerChange = (event) => {
+    let datos = this.state.data;
+    let bandera = true;
+    for (const val1 of Object.values(datos.data.data)) {
+      let keys = Object.keys(val1);
+      for (let i = 0; i < keys.length; i++) {
+        const element = keys[i];
+        if (bandera) {
+          if (val1[element].nombre == event.target.name) {
+            val1[element].valor = event.target.value;
+          }
+        } else {
+        }
+      }
+      bandera = false;
+    }
+    this.setState({
+      data: datos,
+    });
+  };
+
+  handlerSubmit = (event) => {
+    event.preventDefault();
+    var data = this.state.data;
+    let URL =
+      "https://formularios-prueba-tecnica-6ihrk4y23q-ue.a.run.app/formularios/api/v3/prueba_tecnica";
+    fetch(URL, {
+      method: "POST",
+      body: JSON.stringify(data),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .catch((error) => console.error("Error:", error))
+      .then((response) => console.log("Enviado:", response));
+  };
+
   render() {
     if (this.state.data == null) {
       return <h1>No se puede cargar el componente</h1>;
     } else {
       return (
+        <>
           <Formulario
             variables={this.state.variables}
             secciones={this.state.secciones}
-            onChange={this.onChange}
-            val={this.state.valor}
+            handlerChange={this.handlerChange}
+            handleSubmit={this.handlerSubmit}
           />
+        </>
       );
     }
   }
 }
-export default Information;
+export default Informacion;

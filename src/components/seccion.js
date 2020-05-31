@@ -1,9 +1,9 @@
 import React from "react";
 import Items from "./items";
 import Lista from "./lista";
-import ItemNumero from './itemNumero'
+import ItemNumero from "./itemNumero";
 
-const Seccion = ({ variables, valor}) => {
+const Seccion = ({ variables, valor, handlerChange }) => {
   return (
     <>
       {variables.map((elemento, index) => {
@@ -19,19 +19,23 @@ const Seccion = ({ variables, valor}) => {
                   <Lista
                     lstOpc={lstOpc}
                     nombre={elemento.nombre}
+                    handlerChange={handlerChange}
                   />
                 </div>
               );
             case "numero":
               return (
                 <div key={"itemNumero" + index}>
-                  <ItemNumero elemento={elemento}/>
+                  <ItemNumero
+                    elemento={elemento}
+                    handlerChange={handlerChange}
+                  />
                 </div>
               );
             default:
               return (
                 <div key={"item" + index}>
-                  <Items elemento={elemento} />
+                  <Items elemento={elemento} handlerChange={handlerChange} />
                 </div>
               );
           }
